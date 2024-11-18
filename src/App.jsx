@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect } from "react";
 import Login from "./components/Auth/Login";
 import EmployeeDashboard from "./components/Dashboard/EmployeeDashboard";
 import AdminDashboard from "./components/Dashboard/AdminDashboard";
@@ -6,62 +6,47 @@ import { getLocalStorage, setLocalStorage } from "./utils/localStorage";
 import { AuthContext } from "./context/AuthProvider";
 
 const App = () => {
-  const [user, setUser] = useState(null);
-  const [liUserData, setLiUserData] = useState(null);
+  const { user, setUser, userData } = useContext(AuthContext);
 
-  const [userData,setUserData] = useContext(AuthContext);
-
-  useEffect(()=>{
-    const loggedInUser =localStorage.getItem('loggedInUser')
-    if(loggedInUser){
-      const userData = JSON.parse(loggedInUser)
-      setUser(userData.role)
-      setLiUserData(userData.data)
+  useEffect(() => {
+    // Load logged-in user from localStorage on app load
+    const loggedInUser = localStorage.getItem("loggedInUser");
+    if (loggedInUser) {
+      const parsedUser = JSON.parse(loggedInUser);
+      setUser(parsedUser); // Set user from localStorage
     }
+  }, [setUser]);
 
-  },[])
-
- 
-  
   const handleLogin = (email, password) => {
-    if (email == "admin@me.com" && password == "123") {
-      setUser({ role: "admin" });
-      localStorage.setItem("loggedInUser", JSON.stringify({ role: "admin" }));
-    } else if (userData) {
+    if (email === "admin@me.com" && password === "123") {
+      const adminUser = { role: "admin" };
+      setUser(adminUser);
+      localStorage.setItem("loggedInUser", JSON.stringify(adminUser));
+    } else {
       const employee = userData.find(
-        (e) => email == e.email && e.password == password
+        (e) => email === e.email && password === e.password
       );
       if (employee) {
-        setUser({ role: "employee" });
-        setLiUserData(employee);
-        localStorage.setItem(
-          "loggedInUser",
-          JSON.stringify({ role: "employee",data:employee })
-        );
+        const employeeUser = { role: "employee", data: employee };
+        setUser(employeeUser);
+        localStorage.setItem("loggedInUser", JSON.stringify(employeeUser));
+      } else {
+        alert("Invalid credentials");
       }
     }
-    // else if(email=='user@me.com'&& password=='123'){
-    //   setUser('employee')
-    // }
-    else {
-      alert("invalid credentials");
-    }
   };
+  
+
+  if (!user) {
+    return <Login handleLogin={handleLogin} />;
+  }
 
   return (
-    
     <>
-      {!user ? <Login handleLogin={handleLogin} /> : ""}
-      {/* {user == "admin" ? (
-        <AdminDashboard />
-      ) : (user == "employee" ? (
-        <EmployeeDashboard data={liUserData} />
-      ) :null)} */}
-      
-
-      {user=='admin'?<AdminDashboard changeUser={setUser}/>:(user=='employee'?<EmployeeDashboard changeUser={setUser} data={liUserData}/>:null)}
-      {/* {user!='admin'? <EmployeeDashboard  />:<AdminDashboard/>}/ */}
-      {/* {user!='admin'? (user=='employee'?<EmployeeDashboard data={liUserData}/>:null):<AdminDashboard/>} */}
+      {user.role === "admin" && <AdminDashboard changeUser={setUser} />}
+      {user.role === "employee" && (
+        <EmployeeDashboard changeUser={setUser} data={user.data} />
+      )}
     </>
   );
 };

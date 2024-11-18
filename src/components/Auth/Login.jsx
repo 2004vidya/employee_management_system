@@ -16,7 +16,7 @@ const Login = ({ handleLogin }) => {
   };
 
   return (
-    <div className="bg-gray-800 dark:bg-gray-800 flex h-screen w-screen items-center justify-center" 
+    <div className="bg-[radial-gradient(80%_50%_at_50%_-20%,_rgb(0,_41,_82),_transparent)] bg-[#05111f] flex h-screen w-screen items-center justify-center" 
     // style={{
     //   backgroundImage: `url(https://img.freepik.com/free-vector/soft-curve-shapes-background_1017-26675.jpg?t=st=1731777990~exp=1731781590~hmac=c4fd42867266b99da1f011619f4d87e3c34626cbf8354528714bf62d36d675e7&w=996)`,
     //   backgroundSize: 'cover', // Makes the image cover the entire container
@@ -28,16 +28,16 @@ const Login = ({ handleLogin }) => {
     
     
     >
-      <div className="border-2  rounded-xl border-emerald-600 p-20">
+      <div className="border-2  rounded-xl  p-20">
         <form
           onSubmit={(e) => {
             submitHandler(e);
           }}
-          className=" h-screen w-screen flex flex-col items-center justify-center"
+          className="h-screen w-screen flex flex-col items-center justify-center sm:h-auto sm:w-full sm:justify-start md:flex-row lg:flex-col "
         >
           <label
-            for="email"
-            class="  block absolute top-[25%] left-[36%] text-sm font-medium text-gray-400 dark:text-white"
+            htmlFor="email"
+            className="  block absolute top-[25%] left-[36%] text-sm font-medium text-gray-400 dark:text-white"
           >
             Email address
           </label>
@@ -52,8 +52,8 @@ const Login = ({ handleLogin }) => {
             placeholder="enter your email"
           />
           <label
-            for="email"
-            class="  block absolute top-[45%] left-[36%] text-sm font-medium text-gray-400 dark:text-white"
+            htmlFor="email"
+            className="  block absolute top-[45%] left-[36%] text-sm font-medium text-gray-400 dark:text-white"
           >
             Password
           </label>
