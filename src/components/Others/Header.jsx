@@ -1,15 +1,23 @@
-import React, { useState } from 'react'
-import { setLocalStorage } from '../../utils/localStorage'
-import { X } from '@mui/icons-material'
+import React, { useContext, useEffect, useState } from 'react'
+import { AuthContext } from '../../context/AuthProvider';
 
 
 const Header = (props) => {
+  // const { userData } = useContext(AuthContext); 
+  // const [username, setUsername] = useState('Admin'); // Default to 'Admin'
+
+  // useEffect(() => {
+  //   if (userData && userData.first_name) {
+  //     setUsername(userData.first_name);
+  //   }
+  // }, [userData]); 
+
   // const [username, setUsername] = useState('')
-  // if(!data){
+  // if(!userData){
   //   setUsername('Admin')
   // }
   // else{
-  //   setUsername(data.first_name)
+  //   setUsername(userData.first_name)
   // }
 
   const logOutUser =()=>{
